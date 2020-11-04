@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Bing Map API</title>
+        <title>BING Map Api</title>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <div id='printoutPanel'></div>
         
-        <div id='myMap' ></div>
-        <script src="index.js" type='text/javascript'></script>
+        <div id='myMap'></div>
+
+<div class="form">
+        <label for="post-code">Enter your post code here:</label>
+        <input placeholder="POST CODE" id="post-code" name="post-code" value="">
+        <button>Go!</button>
+    </div>
+
+        <script src="index.js" type='text/javascript'> </script>
         <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AtDvCLT6AdyBVpE2W1o34gwVJ_9ja5orklJSfL7DBcLYT_Oacc_rjBu1c_9_OpMV&callback=loadMapScenario' async defer></script>
     </body>
 </html>
