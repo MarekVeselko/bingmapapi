@@ -65,3 +65,22 @@ button:active{
     transform:translate(0,0);
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.205);
 }
+
+@media only screen and (max-width: 600px){
+    .form{
+        position: absolute;
+        left: 3%;
+        top: 8%;
+        }
+
+    input{
+        padding: 2rem 10rem 2rem .5rem;
+        display: block;
+    }
+    button{
+        transform: scale(1.1);
+        margin-top: 1rem;
+        display: block;
+        
+    }
+}
