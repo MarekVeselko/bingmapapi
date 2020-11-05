@@ -11,24 +11,57 @@ html{
 
 #myMap{
     position: relative;
-    width: 70vw;
-    height: 70vh;
-    transform: translateX(-50%);
-    left:50%;
-    margin-top: 5rem;
+    width: 100vw;
+    height: 100vh;
+
 }
 
 .form{
-
-    text-align: center;
-    margin-top: 3rem;
+position: absolute;
+left: 3%;
+top: 3%;
 }
 
 input{
-    font-size: 2rem;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    padding: 1rem 15rem 1rem 1rem;
+    border: none;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.205);
+    font-weight: bold;
+    color:#999;
 }
 
-label{
-    font-size: 1.5rem;
+
+input:active,
+input:focus{
+    outline: none;
 }
 
+button{
+    padding: 1rem 2.5rem .9rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #e8e8e8;
+    font-weight: bold;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.205);
+    cursor: pointer;
+    transition: all .2s;
+}
+
+button:active,
+button:focus{
+    outline: none;
+}
+
+button:hover{
+    background-color: #39311d;
+    color: #fff;
+    transform: translate(.2rem,-.1rem);
+    box-shadow: 0 2rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+button:active{
+    transform:translate(0,0);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.205);
+}
