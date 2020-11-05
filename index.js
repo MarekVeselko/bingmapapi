@@ -3,10 +3,11 @@
 
 
   function loadMapScenario() {
-      var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {});
+      var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+        center: new Microsoft.Maps.Location(51.507, -0.127),
+        zoom: 10
+      });
       
-  
-  
   
        Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService', 'Microsoft.Maps.Search'], function () {
           var searchManager = new Microsoft.Maps.Search.SearchManager(map);
