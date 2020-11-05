@@ -1,21 +1,27 @@
 
-  var zipCodes = [""];
-
+  var zipCodes = "";
+  
+  let postCode="";  
+  document.getElementById("post-code").addEventListener("change",function(){
+   postCode = String(document.getElementById("post-code").value).toLowerCase();  
+  })
 
   function loadMapScenario() {
+    zipCodes=postCode;
       var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
         center: new Microsoft.Maps.Location(51.507, -0.127),
-        zoom: 10
+        zoom: 10,
       });
       
   
        Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService', 'Microsoft.Maps.Search'], function () {
           var searchManager = new Microsoft.Maps.Search.SearchManager(map);
           var geocodeRequest = {
-              where: zipCodes[zipCodes.length-1],
+              where: zipCodes,
               callback: function (geocodeResult) {
                   if (geocodeResult && geocodeResult.results && geocodeResult.results.length > 0) {
                       map.setView({ bounds: geocodeResult.results[0].bestView });
+                      map.setView({ zoom: 14 });
                       var geoDataRequestOptions = {
                           entityType: 'Postcode2',
                           getAllPolygons: true
@@ -34,20 +40,17 @@
           };
           searchManager.geocode(geocodeRequest);
       });
-  
-  
-      
-      
+       
   }
   
-  let postCode="";
-      
-  document.getElementById("post-code").addEventListener("change",function(){
-  postCode = String(document.getElementById("post-code").value).toLowerCase();  
-  })
   
   document.querySelector("button").addEventListener("click",function(){
-      zipCodes.push(postCode);
-      console.log = (zipCodes[zipCodes.length -1]);
       loadMapScenario();
     })
+
+document.addEventListener("keyup",function(e) {
+    let keyCode = e.keyCode || e.which; 
+    if(keyCode == 13){ 
+        loadMapScenario();
+    }
+});

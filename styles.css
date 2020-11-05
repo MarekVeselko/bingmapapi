@@ -84,3 +84,10 @@ button:active{
         
     }
 }
+
+.NavBar_MapTypeButtonContainerWrapper,
+#LocateMeButton,
+#ZoomInButton,
+#ZoomOutButton{
+    display: none;
+}
