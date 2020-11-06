@@ -218,14 +218,11 @@ http.onreadystatechange = function() {
               },
           };
           searchManager.geocode(geocodeRequest);
+          zipCodes="";
       });
     } 
 
   
-  
-//   document.querySelector("button").addEventListener("click",function(){
-//       loadMapScenario();
-//     })
 
 document.addEventListener("keyup",function(e) {
     let keyCode = e.keyCode || e.which; 
@@ -234,5 +231,9 @@ document.addEventListener("keyup",function(e) {
     }
 });
 
-
+document.getElementById("result").addEventListener("click",function(){
+    if (zipCodes!==""){
+    loadMapScenario();
+}else{null}
+})
 
