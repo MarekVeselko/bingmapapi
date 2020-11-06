@@ -15,8 +15,8 @@
         <div class="content">
 	
             <div class="fieldWrap">
-                <input type="text" autocomplete="off" name="search" class="searchInput" id="searchBox" placeholder="Enter Address" onchange="showClear()" onkeypress="return enterSearch(event)">
-              <button onClick="findAddress()">Search</button>
+                <input onchange="findAddress()" type="text" autocomplete="off" name="search" class="searchInput" id="searchBox" placeholder="Enter Address" onchange="showClear()" onkeypress="return enterSearch(event)">
+              <button onclick="findAddress()" >Search</button>
                 <div class="clear" id="clearButton" onClick="clearSearch()">X</div>
             </div>
             
@@ -25,7 +25,7 @@
             </div>
             
             <div class="fieldWrap">
-                <div id="result"></div>
+                <div onclick="loadMapScenario()" id="result"></div>
             </div>	
             
             <div class="seperator" id="seperator"></div> 
