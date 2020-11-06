@@ -10,7 +10,7 @@ html{
 }
 
 #myMap{
-    position: relative;
+    position: absolute;
     width: 100vw;
     height: 100vh;
 
@@ -38,7 +38,7 @@ input:focus{
     outline: none;
 }
 
-button{
+/* button{
     padding: 1rem 2.5rem .9rem;
     border-radius: 5px;
     border: none;
@@ -64,7 +64,7 @@ button:hover{
 button:active{
     transform:translate(0,0);
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.205);
-}
+} */
 
 @media only screen and (max-width: 600px){
     .form{
@@ -90,4 +90,131 @@ button:active{
 #ZoomInButton,
 #ZoomOutButton{
     display: none;
+}
+
+/***************************/
+
+
+
+.content{
+    position: absolute;
+    left: 3%;
+    top: 3%;
+    width: 450px;
+    margin: auto;
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddefee;
+    border-radius: 3px;
+}
+
+.fieldWrap{
+    width: 100%;
+    clear: both;
+}
+
+label{
+    width: 15%;
+    display: inline-block;
+}
+
+.seperator{
+    margin-bottom: 15px;
+    display: none;
+}
+
+.outputArea{
+    display: none;
+    padding-left: 5px;
+}
+
+.searchInput{
+    width: 70%;
+    height: 25px;
+    padding: 5px;
+    font-size: 18px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #D9D8D7;
+    background: white;
+    font-family: monospace;
+}
+
+.searchInput::placeholder{
+    font-size: 18px;
+}
+
+.searchInput:focus {
+    border-bottom: 1px solid #000;
+    outline: 0;
+}
+
+select{
+    width: 100%;
+  margin-top: 15px;
+    height: 35px;
+    padding-left: 5px;
+    font-size: 18px;
+    font-family: monospace;
+    border: 1px solid #D9D8D7;
+    color: #1f2d3d;
+}
+
+select:focus{
+    outline: 0;
+    border: 1px solid #000;
+}
+/*
+select > option:selected {
+    cursor: pointer;
+    background: #14C5BD;
+}
+*/
+
+select > option:focus{
+    background:#000 ;
+    outline: none;
+}
+
+button {
+    background-color: #69779b;
+    color: white;
+    width: 100px;
+    height: 37px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+}
+
+button:hover{
+background: #39311d;
+}
+
+.clear{
+    display: none;
+    position: relative;
+    background: #bbb8b8;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    border-radius: 20px;
+    float: right;
+    padding: 2px;
+    color: white;
+    font-size: 14px;
+    right: 30px;
+    top: 8px;
+    line-height: 18px;
+}
+
+.clear:hover{
+    background: #969696;
+    cursor: pointer;
+}
+
+.error{
+background: #f5b355; 
+padding: 10px;
+margin-top: 15px;
+display: none; 
 }

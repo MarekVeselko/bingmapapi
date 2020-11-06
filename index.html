@@ -12,10 +12,30 @@
         
         <div id='myMap'></div>
 
-    <div class="form">
-        <input placeholder="Insert Post Code" id="post-code" name="post-code" value="" autocomplete="off">
-        <button>Search</button>
-    </div>
+        <div class="content">
+	
+            <div class="fieldWrap">
+                <input type="text" autocomplete="off" name="search" class="searchInput" id="searchBox" placeholder="Enter Address" onchange="showClear()" onkeypress="return enterSearch(event)">
+              <button onClick="findAddress()">Search</button>
+                <div class="clear" id="clearButton" onClick="clearSearch()">X</div>
+            </div>
+            
+            <div class="fieldWrap">
+                <div class="error" id="errorMessage"></div>
+            </div>
+            
+            <div class="fieldWrap">
+                <div id="result"></div>
+            </div>	
+            
+            <div class="seperator" id="seperator"></div> 
+            
+            <div class="fieldWrap">
+                <div class="outputArea" id="output"></div>
+            </div>
+            
+        </div>
+        
 
         <script src="index.js" type='text/javascript'> </script>
         <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AtDvCLT6AdyBVpE2W1o34gwVJ_9ja5orklJSfL7DBcLYT_Oacc_rjBu1c_9_OpMV&callback=loadMapScenario' async defer></script>
