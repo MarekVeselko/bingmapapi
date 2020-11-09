@@ -1,4 +1,5 @@
 var zipCodes = "";
+let className = "";
 
 function showClear() {
 	document.getElementById("clearButton").style.display = "block";
@@ -72,7 +73,6 @@ http.onreadystatechange = function() {
 
         else {
 					var resultBox = document.getElementById("result");
-					console.log(resultBox);
 					if (resultBox.childNodes.length > 0) {
 						var selectBox = document.getElementById("mySelect");
 						selectBox.parentNode.removeChild(selectBox)
@@ -96,9 +96,9 @@ http.onreadystatechange = function() {
             var option = document.createElement("option"); 
             option.setAttribute("value", response.Items[i].Id)
             option.text = response.Items[i].Text + " " + response.Items[i].Description;
-						option.setAttribute("class", response.Items[i].Type)
-																											
+						option.setAttribute("class", response.Items[i].Type)												
             list.appendChild(option);
+            className = option.className;
 
           }
 					selectAddress(Key);				          
@@ -233,7 +233,7 @@ http.onreadystatechange = function() {
 // });
 
 document.getElementById("result").addEventListener("click",function(){
-    if (zipCodes!==""){
+    if (zipCodes!=="" && className=="Address"){
     loadMapScenario();
     document.getElementById("mySelect").setAttribute("size","1");
 }else{null}
