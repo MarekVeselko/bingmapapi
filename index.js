@@ -30,7 +30,7 @@ function findAddress(SecondFind) {
   var Text = document.getElementById("searchBox").value;
 
 	if (Text === "") {
-		showError("Please enter an address");
+		// showError("Please enter an address");
 		return;
 	}
 	
@@ -82,6 +82,7 @@ http.onreadystatechange = function() {
           var list = document.createElement("select");
               list.id = "selectList";
               list.setAttribute("id", "mySelect");
+              list.setAttribute("size", "10");
               resultArea.appendChild(list);
 					
 					var defaultOption = document.createElement("option");
@@ -224,16 +225,20 @@ http.onreadystatechange = function() {
 
   
 
-document.addEventListener("keyup",function(e) {
-    let keyCode = e.keyCode || e.which; 
-    if(keyCode == 13){ 
-       findAddress();
-    }
-});
+// document.addEventListener("keyup",function(e) {
+//     let keyCode = e.keyCode || e.which; 
+//     if(keyCode == 13){ 
+//        findAddress();
+//     }
+// });
 
 document.getElementById("result").addEventListener("click",function(){
     if (zipCodes!==""){
     loadMapScenario();
+    document.getElementById("mySelect").setAttribute("size","1");
 }else{null}
 })
 
+document.addEventListener("keydown",function(){
+  findAddress();
+})
