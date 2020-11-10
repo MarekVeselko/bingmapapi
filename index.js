@@ -1,6 +1,7 @@
 var zipCodes = "";
 let className = "";
 
+
 function showClear() {
 	document.getElementById("clearButton").style.display = "block";
 }
@@ -84,6 +85,7 @@ http.onreadystatechange = function() {
               list.setAttribute("id", "mySelect");
               list.setAttribute("size", "10");
               resultArea.appendChild(list);
+            
 					
 					var defaultOption = document.createElement("option");
 					 defaultOption.text = "Select Address";
@@ -121,7 +123,6 @@ function selectAddress(Key){
 								
                                 var target = e.target[e.target.selectedIndex];
                                 zipCodes=target.text;
-								console.log(target.text);
 								if (target.text === "Select Address") {
 									return;
 								}		
@@ -233,7 +234,7 @@ http.onreadystatechange = function() {
 // });
 
 document.getElementById("result").addEventListener("click",function(){
-    if (zipCodes!=="" && className=="Address"){
+    if (zipCodes!=="" && className==="Address" || className==="Street"){
     loadMapScenario();
     document.getElementById("mySelect").setAttribute("size","1");
 }else{null}
