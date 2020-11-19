@@ -1,5 +1,5 @@
 var zipCodes = "";
-let className = "";
+let classNameOfAddress = "";
 
 
 function showClear() {
@@ -100,7 +100,7 @@ http.onreadystatechange = function() {
             option.text = response.Items[i].Text + " " + response.Items[i].Description;
 						option.setAttribute("class", response.Items[i].Type)												
             list.appendChild(option);
-            className = option.className;
+            classNameOfAddress = option.className;
 
           }
 					selectAddress(Key);				          
@@ -234,7 +234,7 @@ http.onreadystatechange = function() {
 // });
 
 document.getElementById("result").addEventListener("click",function(){
-    if (zipCodes!=="" && className==="Address" || className==="Street"){
+    if (zipCodes!=="" && classNameOfAddress!=="Postcode"){
     loadMapScenario();
     document.getElementById("mySelect").setAttribute("size","1");
 }else{null}
