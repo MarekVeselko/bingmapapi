@@ -13,7 +13,6 @@ html{
     position: absolute;
     width: 100vw;
     height: 100vh;
-
 }
 
 .NavBar_MapTypeButtonContainerWrapper,
@@ -21,6 +20,30 @@ html{
 #ZoomInButton,
 #ZoomOutButton{
     display: none;
+}
+
+#clear-pins-btn{
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    padding: 1rem 3rem;
+    background-color: #ec5858;
+    color: #fff;
+    z-index: 10;
+    width: 15rem;
+    border-radius: 3px;
+    border: 1px solid #fff;
+}
+#printoutPanel{
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    z-index: 10;
+    background-color: #fff;
+    padding: 6rem 4rem;
+    border: 2px solid black;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /***************************/

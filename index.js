@@ -100,6 +100,7 @@ http.onreadystatechange = function() {
             option.text = response.Items[i].Text + " " + response.Items[i].Description;
 						option.setAttribute("class", response.Items[i].Type)												
             list.appendChild(option);
+
             classNameOfAddress = option.className;
 
           }
@@ -178,60 +179,90 @@ http.onreadystatechange = function() {
 
 /////////////////////////
 
-
-
-  
   
   let postCode="";  
   document.getElementById("searchBox").addEventListener("change",function(){
    postCode = String(document.getElementById("searchBox").value).toLowerCase();  
   })
 
-  function loadMapScenario() {
 
+
+ 
+  function loadMapScenario() {
+    
       var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
-        center: new Microsoft.Maps.Location(51.507, -0.127),
-        zoom: 10,
+        center: new Microsoft.Maps.Location(51.482, -0.177),
+        zoom: 14,
       });
       
-
-       Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService', 'Microsoft.Maps.Search'], function () {
-          var searchManager = new Microsoft.Maps.Search.SearchManager(map);
-          var geocodeRequest = {
-              where: zipCodes,
-              callback: function (geocodeResult) {
-                  if (geocodeResult && geocodeResult.results && geocodeResult.results.length > 0) {
-                      map.setView({ bounds: geocodeResult.results[0].bestView });
-                      map.setView({ zoom: 14 });
-                      var geoDataRequestOptions = {
-                          entityType: 'Postcode2',
-                          getAllPolygons: true
-                      };
-                      //Use the GeoData API manager to get the boundary of New York City
-                      Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(geocodeResult.results[0].location, geoDataRequestOptions, map, function (data) {
-                          if (data.results && data.results.length > 0) {
-                              map.entities.push(data.results[0].Polygons);
-                          }
-                      }, null, function errCallback(networkStatus, statusMessage) {
-                          console.log(networkStatus);
-                          console.log(statusMessage);
-                      });
-                  }
-              },
+      let addressName = "";
+      var pinLocation = "";
+      //Create an array of locations to get the boundaries of
+      var zipCodes = ["SW10 0AA"];
+      var geoDataRequestOptions = {
+      entityType: 'Postcode2',
+      getAllPolygons: true
           };
-          searchManager.geocode(geocodeRequest);
-          zipCodes="";
+
+
+          function bingMapOnClick(e) {
+            if (e.targetType == "map") {
+                //Get map unit x,y
+                var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+                //Convert map point to location
+                var location = e.target.tryPixelToLocation(point);   
+                //Print x y
+                console.log(location.longitude);
+                console.log(location.latitude);
+                pinLocation=new Microsoft.Maps.Location(location.latitude, location.longitude);
+            }  
+
+            document.getElementById("myMap").addEventListener("click",function(){
+              Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                var searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                var reverseGeocodeRequestOptions = {
+                    location: pinLocation,
+                    callback: function (answer, userData) {
+                        document.getElementById('printoutPanel').innerHTML =
+                            answer.address.formattedAddress;
+                            addressName=answer.address.formattedAddress;
+                    }
+                };
+                searchManager.reverseGeocode(reverseGeocodeRequestOptions);
+            });
+          })
+
+
+          var pin = new Microsoft.Maps.Pushpin(pinLocation, {
+            icon:"icon/location.svg"      
+          });
+            map.entities.push(pin);
+            console.log(pin); 
+        };
+          
+          
+
+         
+          Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes, geoDataRequestOptions, map, function (data) {
+                if (data.results && data.results.length > 0) {
+                    map.entities.push(data.results[0].Polygons);
+                }
+            }, null, function errCallback(callbackState, networkStatus, statusMessage) {
+                console.log(callbackState);
+                console.log(networkStatus);
+                console.log(statusMessage);
+            });
+          // zipCodes="";
+          Microsoft.Maps.Events.addHandler(map, 'click', bingMapOnClick);
       });
+
+      document.getElementById("clear-pins-btn").addEventListener("click",function(){
+          map.entities.pop();
+          document.getElementById("printoutPanel").innerHTML = "";
+      })
     } 
 
-  
-
-// document.addEventListener("keyup",function(e) {
-//     let keyCode = e.keyCode || e.which; 
-//     if(keyCode == 13){ 
-//        findAddress();
-//     }
-// });
 
 document.getElementById("result").addEventListener("click",function(){
     if (zipCodes!=="" && classNameOfAddress!=="Postcode"){
@@ -243,3 +274,24 @@ document.getElementById("result").addEventListener("click",function(){
 document.addEventListener("keydown",function(){
   findAddress();
 })
+
+
+///////////////////////// PIN ICON
+
+
+// window.addEventListener("click",function(e){
+
+
+//   let img = document.createElement("img");
+//   img.setAttribute("src", "icon/pin-icon.png");
+//   img.setAttribute("alt","pin-icon");
+//   img.style.position="absolute";
+//   img.style.top= e.pageY + "px";
+//   img.style.left= e.pageX + "px";
+//   img.style.width = "3rem";
+//   console.log(img);
+//   document.body.appendChild(img);
+// })
+
+
+

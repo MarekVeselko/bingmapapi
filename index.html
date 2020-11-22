@@ -8,18 +8,23 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+
         <div id='printoutPanel'></div>
         
+        <button id="clear-pins-btn">Clear Pins</button>
+
         <div id='myMap'></div>
 
         <div class="content">
-	
+            
             <div class="fieldWrap">
                 <input onchange="findAddress()" type="text" autocomplete="off" name="search" class="searchInput" id="searchBox" placeholder="Enter Address" onchange="showClear()" onkeypress="return enterSearch(event)">
               <button onclick="findAddress()" >Search</button>
                 <div class="clear" id="clearButton" onClick="clearSearch()">X</div>
             </div>
             
+          
+
             <div class="fieldWrap">
                 <div class="error" id="errorMessage"></div>
             </div>
