@@ -33,11 +33,16 @@ html{
     width: 15rem;
     border-radius: 3px;
     border: 1px solid #fff;
+    cursor: pointer;
+}
+#clear-pins-btn:disabled{
+    background-color: #777;
+    cursor: not-allowed;
 }
 #printoutPanel{
     position: absolute;
     left: 10%;
-    top: 20%;
+    top: 5%;
     z-index: 10;
     background-color: #fff;
     padding: 6rem 4rem;
@@ -48,7 +53,7 @@ html{
 
 /***************************/
 
-
+/* 
 
 .content{
     position: absolute;
@@ -97,15 +102,10 @@ label{
     font-size: 18px;
 }
 
-.searchInput:focus {
-    border-bottom: 1px solid #000;
-    outline: 0;
-}
-
-select{
+ select{
     width: 100%;
   margin-top: 15px;
-    /* height: 35px; */
+    height: 35px; 
     padding-left: 5px;
     font-size: 18px;
     font-family: monospace;
@@ -113,10 +113,17 @@ select{
     color: #1f2d3d;
 }
 
-select:focus{
+.searchInput:focus {
+    border-bottom: 1px solid #000;
+    outline: 0;
+}
+
+
+
+/* select:focus{
     outline: 0;
     border: 1px solid #000;
-}
+} */ 
 /*
 select > option:selected {
     cursor: pointer;
@@ -124,6 +131,7 @@ select > option:selected {
 }
 */
 
+/*
 select > option:focus{
     background:#000 ;
     outline: none;
@@ -171,4 +179,4 @@ background: #f5b355;
 padding: 10px;
 margin-top: 15px;
 display: none; 
-}
+} */

@@ -1,193 +1,4 @@
-var zipCodes = "";
-let classNameOfAddress = "";
 
-
-function showClear() {
-	document.getElementById("clearButton").style.display = "block";
-}
-
-function clearSearch() {
-	var input = document.getElementById("searchBox");
-	input.value = "";
-	document.getElementById("clearButton").style.display = "none";	
-}
-
-function showError(message) {
-	var error = document.getElementById("errorMessage");
-	error.innerText = message;
-	error.style.display = "block";
-	
-	setTimeout(function(){
-		error.style.display = "none";
-	}, 10000)
-}
-
-function enterSearch(e) {
-	if (e.keyCode == 13){
-		findAddress();	
-	}
-}
-
-function findAddress(SecondFind) {
-  var Text = document.getElementById("searchBox").value;
-
-	if (Text === "") {
-		// showError("Please enter an address");
-		return;
-	}
-	
-	var Container = "";			
-			
-	if (SecondFind !== undefined){
-		 Container = SecondFind;
-    } 
-    
-	
-var Key = "PA49-XH36-BE52-ZM32",
-    IsMiddleware = false,
-    Origin = "",
-    Countries = "GBR",
-    Limit = "10",
-    Language = "en-gb",  
-		url = 'https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.10/json3.ws';
-var params = '';
-    params += "&Key=" + encodeURIComponent(Key);
-    params += "&Text=" + encodeURIComponent(Text);
-    params += "&IsMiddleware=" + encodeURIComponent(IsMiddleware);
-    params += "&Container=" + encodeURIComponent(Container);
-    params += "&Origin=" + encodeURIComponent(Origin);
-    params += "&Countries=" + encodeURIComponent(Countries);
-    params += "&Limit=" + encodeURIComponent(Limit);
-    params += "&Language=" + encodeURIComponent(Language);
-var http = new XMLHttpRequest();
-http.open('POST', url, true);
-http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-http.onreadystatechange = function() {
-  if (http.readyState == 4 && http.status == 200) {
-      var response = JSON.parse(http.responseText);
-      if (response.Items.length == 1 && typeof(response.Items[0].Error) != "undefined") {
-         showError(response.Items[0].Description);
-      }
-      else {
-        if (response.Items.length == 0)
-            showError("Sorry, there were no results");
-
-        else {
-					var resultBox = document.getElementById("result");
-					if (resultBox.childNodes.length > 0) {
-						var selectBox = document.getElementById("mySelect");
-						selectBox.parentNode.removeChild(selectBox)
-					}
-							
-          var resultArea = document.getElementById("result");
-          var list = document.createElement("select");
-              list.id = "selectList";
-              list.setAttribute("id", "mySelect");
-              list.setAttribute("size", "10");
-              resultArea.appendChild(list);
-            
-					
-					var defaultOption = document.createElement("option");
-					 defaultOption.text = "Select Address";
-					defaultOption.setAttribute("value", "");
-					defaultOption.setAttribute("selected", "selected");
-                    list.appendChild(defaultOption);
-                    
-
-          for (var i = 0; i < response.Items.length; i++){  	
-            var option = document.createElement("option"); 
-            option.setAttribute("value", response.Items[i].Id)
-            option.text = response.Items[i].Text + " " + response.Items[i].Description;
-						option.setAttribute("class", response.Items[i].Type)												
-            list.appendChild(option);
-
-            classNameOfAddress = option.className;
-
-          }
-					selectAddress(Key);				          
-        }
-    }
-  }
-}
-    http.send(params);
-    
-};  
-
-
-function selectAddress(Key){
-		var resultList = document.getElementById("result");
-	
-		if (resultList.childNodes.length > 0) {		
-				var elem = document.getElementById("mySelect");
-				//IE fix
-							elem.onchange = function (e) {
-								
-                                var target = e.target[e.target.selectedIndex];
-                                zipCodes=target.text;
-								if (target.text === "Select Address") {
-									return;
-								}		
-
-								if (target.className === "Address"){
-									retrieveAddress(Key, target.value);
-								}
-								
-								else {
-								  findAddress(target.value)
-								}							
-                        };			
-					}
-};
-
-
-
-function retrieveAddress(Key, Id){
-	var Field1Format = "";
-	var url = 'https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3.ws';
-	var params = '';
-			params += "&Key=" + encodeURIComponent(Key);
-			params += "&Id=" + encodeURIComponent(Id);
-			params += "&Field1Format=" + encodeURIComponent(Field1Format);
-   
-var http = new XMLHttpRequest();
-http.open('POST', url, true);
-http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-http.onreadystatechange = function() {
-  if (http.readyState == 4 && http.status == 200) {
-      var response = JSON.parse(http.responseText);
-
-      if (response.Items.length == 1 && typeof(response.Items[0].Error) != "undefined") {
-        showError(response.Items[0].Description);
-      }
-      else {
-        if (response.Items.length == 0)
-            showError("Sorry, there were no results");
-        else {           
-					var res = response.Items[0];
-					var resBox = document.getElementById("output");
-					resBox.innerText = res.Label;			
-				  document.getElementById("output").style.display = "block";
-					document.getElementById("seperator").style.display = "block";
-       }
-    }
-  }
-}
-    http.send(params); 
-}
-
-
-
-/////////////////////////
-
-  
-  let postCode="";  
-  document.getElementById("searchBox").addEventListener("change",function(){
-   postCode = String(document.getElementById("searchBox").value).toLowerCase();  
-  })
-
-
-
- 
   function loadMapScenario() {
     
       var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
@@ -197,13 +8,19 @@ http.onreadystatechange = function() {
       
       let addressName = "";
       var pinLocation = "";
+
       //Create an array of locations to get the boundaries of
-      var zipCodes = ["SW10 0AA"];
+      var zipCodes = ["SW10 0AA","SW10"];
+      var zipCodes2 = ["SW10 9"];
+      
       var geoDataRequestOptions = {
       entityType: 'Postcode2',
       getAllPolygons: true
           };
-
+      var geoDataRequestOptions2 = {
+          entityType: 'Postcode3',
+          getAllPolygons: true
+            };
 
           function bingMapOnClick(e) {
             if (e.targetType == "map") {
@@ -217,35 +34,78 @@ http.onreadystatechange = function() {
                 pinLocation=new Microsoft.Maps.Location(location.latitude, location.longitude);
             }  
 
-            document.getElementById("myMap").addEventListener("click",function(){
+            // var pin = new Microsoft.Maps.Pushpin(pinLocation, {
+            //   icon:"icon/location-red.png",
+            //   visible: false    
+            // });
+            //   map.entities.push(pin);
+            
               Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
                 var searchManager = new Microsoft.Maps.Search.SearchManager(map);
                 var reverseGeocodeRequestOptions = {
                     location: pinLocation,
                     callback: function (answer, userData) {
                         document.getElementById('printoutPanel').innerHTML =
-                            answer.address.formattedAddress;
+                            answer.address.postalCode;
+
                             addressName=answer.address.formattedAddress;
                     }
                 };
                 searchManager.reverseGeocode(reverseGeocodeRequestOptions);
             });
-          })
 
-
-          var pin = new Microsoft.Maps.Pushpin(pinLocation, {
-            icon:"icon/location.svg"      
-          });
-            map.entities.push(pin);
-            console.log(pin); 
         };
-          
-          
 
-         
+        //Hardcoded pins
+        pinsVisibility = true;
+        function showPins(){
+        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.481491100821316, -0.18713758169192518), {
+          icon:"icon/location-red.png",
+          enableHoverStyle:true,
+          visibility:pinsVisibility   
+        });
+          map.entities.push(pin);
+        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.4848144065551, -0.18955155882353303), {
+            icon:"icon/location-blue.png",
+            enableHoverStyle:true,
+            visibility:true    
+        });
+        map.entities.push(pin);
+        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48150029279991, -0.18162515116436184), {
+          icon:"icon/location-yellow.png",
+          enableHoverStyle:true,
+          visibility:true    
+      });
+      map.entities.push(pin);
+      var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48613379771426, -0.18511427992365714), {
+        icon:"icon/location-green.png",
+        enableHoverStyle:true,
+        visibility:true    
+    });
+    map.entities.push(pin);
+    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48375986674305, -0.18200844259763427), {
+      icon:"icon/location-black.png",
+      enableHoverStyle:true,
+      visibility:pinsVisibility    
+    });
+    map.entities.push(pin);
+    console.log(pinsVisibility)
+  }
+  if(pinsVisibility){
+    showPins();
+  }
+  function deletePins(){
+    for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+      var pushpin = map.entities.get(i);
+      if (pushpin instanceof Microsoft.Maps.Pushpin) {
+          map.entities.removeAt(i);
+      }
+  }}
+   
+              
           Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
             Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes, geoDataRequestOptions, map, function (data) {
-                if (data.results && data.results.length > 0) {
+              if (data.results && data.results.length > 0) {
                     map.entities.push(data.results[0].Polygons);
                 }
             }, null, function errCallback(callbackState, networkStatus, statusMessage) {
@@ -253,15 +113,36 @@ http.onreadystatechange = function() {
                 console.log(networkStatus);
                 console.log(statusMessage);
             });
-          // zipCodes="";
-          Microsoft.Maps.Events.addHandler(map, 'click', bingMapOnClick);
       });
+      Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+        Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes2, geoDataRequestOptions2, map, function (data) {
+          if (data.results && data.results.length > 0) {
+                map.entities.push(data.results[0].Polygons);
+            }
+        }, null, function errCallback(callbackState, networkStatus, statusMessage) {
+            console.log(callbackState);
+            console.log(networkStatus);
+            console.log(statusMessage);
+        });
+  });
+
+      Microsoft.Maps.Events.addHandler(map, 'click', bingMapOnClick);
+      
+
 
       document.getElementById("clear-pins-btn").addEventListener("click",function(){
-          map.entities.pop();
-          document.getElementById("printoutPanel").innerHTML = "";
-      })
-    } 
+        if(pinsVisibility){
+          pinsVisibility=false;
+          deletePins();
+          document.getElementById("clear-pins-btn").innerHTML = "Show pins"
+        }else{
+          pinsVisibility=true;
+          showPins();
+          document.getElementById("clear-pins-btn").innerHTML = "Hide pins"
+        } 
+})}
+        
+      
 
 
 document.getElementById("result").addEventListener("click",function(){
@@ -274,6 +155,7 @@ document.getElementById("result").addEventListener("click",function(){
 document.addEventListener("keydown",function(){
   findAddress();
 })
+
 
 
 ///////////////////////// PIN ICON
