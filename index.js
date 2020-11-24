@@ -60,31 +60,31 @@
         pinsVisibility = true;
         function showPins(){
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.481491100821316, -0.18713758169192518), {
-          icon:"icon/location-red.png",
+          color: "red",
           enableHoverStyle:true,
           visibility:pinsVisibility   
         });
           map.entities.push(pin);
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.4848144065551, -0.18955155882353303), {
-            icon:"icon/location-blue.png",
-            enableHoverStyle:true,
+          color:"blue",  
+          enableHoverStyle:true,
             visibility:true    
         });
         map.entities.push(pin);
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48150029279991, -0.18162515116436184), {
-          icon:"icon/location-yellow.png",
+          color:"black",
           enableHoverStyle:true,
           visibility:true    
       });
       map.entities.push(pin);
       var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48613379771426, -0.18511427992365714), {
-        icon:"icon/location-green.png",
+        color:"green",
         enableHoverStyle:true,
         visibility:true    
     });
     map.entities.push(pin);
     var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48375986674305, -0.18200844259763427), {
-      icon:"icon/location-black.png",
+      color:"orange",
       enableHoverStyle:true,
       visibility:pinsVisibility    
     });
