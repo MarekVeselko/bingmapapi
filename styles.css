@@ -27,6 +27,7 @@ html{
     right: 10%;
     top: 10%;
     padding: 1rem 3rem;
+    font-weight: bold;
     background-color: #ec5858;
     color: #fff;
     z-index: 10;
@@ -35,10 +36,7 @@ html{
     border: 1px solid #fff;
     cursor: pointer;
 }
-#clear-pins-btn:disabled{
-    background-color: #777;
-    cursor: not-allowed;
-}
+
 #printoutPanel{
     position: absolute;
     left: 10%;
@@ -49,6 +47,7 @@ html{
     border: 2px solid black;
     font-size: 1.2rem;
     font-weight: bold;
+    border-radius: 3px;
 }
 
 /***************************/

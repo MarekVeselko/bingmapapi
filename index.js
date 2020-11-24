@@ -3,35 +3,35 @@
     
       var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
         center: new Microsoft.Maps.Location(51.482, -0.177),
-        zoom: 14,
+        zoom: 15,
       });
       
       let addressName = "";
       var pinLocation = "";
 
       //Create an array of locations to get the boundaries of
-      var zipCodes = ["SW10 0AA","SW10"];
-      var zipCodes2 = ["SW10 9"];
+      var zipCodes = ["SW10 0AA"];    //Postcode2 
+      var zipCodes2 = ["SW10"];   //Postcode3
       
       var geoDataRequestOptions = {
       entityType: 'Postcode2',
-      getAllPolygons: true
+      getAllPolygons: true,
           };
       var geoDataRequestOptions2 = {
           entityType: 'Postcode3',
           getAllPolygons: true
             };
 
-          function bingMapOnClick(e) {
-            if (e.targetType == "map") {
-                //Get map unit x,y
-                var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+      function bingMapOnClick(e) {
+          if (e.targetType == "map") {
+            
+            var point = new Microsoft.Maps.Point(e.getX(), e.getY());
                 //Convert map point to location
-                var location = e.target.tryPixelToLocation(point);   
+            var location = e.target.tryPixelToLocation(point);   
                 //Print x y
-                console.log(location.longitude);
-                console.log(location.latitude);
-                pinLocation=new Microsoft.Maps.Location(location.latitude, location.longitude);
+            console.log(location.longitude);
+            console.log(location.latitude);
+            pinLocation=new Microsoft.Maps.Location(location.latitude, location.longitude);
             }  
 
             // var pin = new Microsoft.Maps.Pushpin(pinLocation, {
@@ -61,36 +61,31 @@
         function showPins(){
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.481491100821316, -0.18713758169192518), {
           color: "red",
-          enableHoverStyle:true,
-          visibility:pinsVisibility   
+          enableHoverStyle:true   
         });
           map.entities.push(pin);
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.4848144065551, -0.18955155882353303), {
           color:"blue",  
-          enableHoverStyle:true,
-            visibility:true    
+          enableHoverStyle:true,    
         });
         map.entities.push(pin);
         var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48150029279991, -0.18162515116436184), {
           color:"black",
-          enableHoverStyle:true,
-          visibility:true    
+          enableHoverStyle:true,   
       });
       map.entities.push(pin);
       var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48613379771426, -0.18511427992365714), {
         color:"green",
-        enableHoverStyle:true,
-        visibility:true    
+        enableHoverStyle:true,   
     });
     map.entities.push(pin);
     var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48375986674305, -0.18200844259763427), {
       color:"orange",
-      enableHoverStyle:true,
-      visibility:pinsVisibility    
+      enableHoverStyle:true,    
     });
     map.entities.push(pin);
-    console.log(pinsVisibility)
   }
+
   if(pinsVisibility){
     showPins();
   }
@@ -101,7 +96,8 @@
           map.entities.removeAt(i);
       }
   }}
-   
+  
+console.log(geoDataRequestOptions);
               
           Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
             Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes, geoDataRequestOptions, map, function (data) {
@@ -117,6 +113,9 @@
       Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
         Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes2, geoDataRequestOptions2, map, function (data) {
           if (data.results && data.results.length > 0) {
+            data.results[0].Polygons[0].setOptions({
+              fillColor: "rgba(162, 10, 10, 0.20)"
+            })
                 map.entities.push(data.results[0].Polygons);
             }
         }, null, function errCallback(callbackState, networkStatus, statusMessage) {
@@ -145,16 +144,7 @@
       
 
 
-document.getElementById("result").addEventListener("click",function(){
-    if (zipCodes!=="" && classNameOfAddress!=="Postcode"){
-    loadMapScenario();
-    document.getElementById("mySelect").setAttribute("size","1");
-}else{null}
-})
 
-document.addEventListener("keydown",function(){
-  findAddress();
-})
 
 
 

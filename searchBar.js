@@ -186,3 +186,13 @@ http.onreadystatechange = function() {
 }
 
 
+document.getElementById("result").addEventListener("click",function(){
+  if (zipCodes!=="" && classNameOfAddress!=="Postcode"){
+  loadMapScenario();
+  document.getElementById("mySelect").setAttribute("size","1");
+}else{null}
+})
+
+document.addEventListener("keydown",function(){
+findAddress();
+})
