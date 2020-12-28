@@ -22,10 +22,10 @@ html{
     display: none;
 }
 
-#clear-pins-btn{
+#delete-pins-btn{
     position: absolute;
     right: 10%;
-    top: 10%;
+    top: 5%;
     padding: 1rem 3rem;
     font-weight: bold;
     background-color: #ec5858;
@@ -39,143 +39,47 @@ html{
 
 #printoutPanel{
     position: absolute;
-    left: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     top: 5%;
     z-index: 10;
-    background-color: #fff;
-    padding: 6rem 4rem;
-    border: 2px solid black;
-    font-size: 1.2rem;
-    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 1rem 4rem;
+    border: .5px solid black;
+    font-size: 1.1rem;
+    font-weight: bolder;
     border-radius: 3px;
 }
 
-/***************************/
-
-/* 
-
-.content{
-    position: absolute;
-    left: 3%;
-    top: 3%;
-    width: 450px;
-    margin: auto;
-    background-color: #fff;
-    padding: 15px;
-    border: 1px solid #ddefee;
-    border-radius: 3px;
-}
-
-.fieldWrap{
-    width: 100%;
-    clear: both;
-}
-
-label{
-    width: 15%;
+#searchBoxContainer{
     display: inline-block;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    z-index: 10;
 }
 
-.seperator{
-    margin-bottom: 15px;
-    display: none;
+#searchBox{
+padding: 1rem 5rem;
+border-radius: 25px;
 }
 
-.outputArea{
-    display: none;
-    padding-left: 5px;
-}
-
-.searchInput{
-    width: 70%;
-    height: 25px;
-    padding: 5px;
-    font-size: 18px;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #D9D8D7;
-    background: white;
-    font-family: monospace;
-}
-
-.searchInput::placeholder{
-    font-size: 18px;
-}
-
- select{
-    width: 100%;
-  margin-top: 15px;
-    height: 35px; 
-    padding-left: 5px;
-    font-size: 18px;
-    font-family: monospace;
-    border: 1px solid #D9D8D7;
-    color: #1f2d3d;
-}
-
-.searchInput:focus {
-    border-bottom: 1px solid #000;
-    outline: 0;
-}
-
-
-
-/* select:focus{
-    outline: 0;
-    border: 1px solid #000;
-} */ 
-/*
-select > option:selected {
-    cursor: pointer;
-    background: #14C5BD;
-}
-*/
-
-/*
-select > option:focus{
-    background:#000 ;
+#searchBox:active,
+#searchBox:focus{
     outline: none;
 }
 
-button {
-    background-color: #69779b;
-    color: white;
-    width: 100px;
-    height: 37px;
-    border: none;
-    cursor: pointer;
-    float: right;
-    font-size: 16px;
+@media only screen and (max-width:800px){
+    #printoutPanel{
+        display:none;
+    }
 }
 
-button:hover{
-background: #39311d;
-}
 
-.clear{
-    display: none;
-    position: relative;
-    background: #bbb8b8;
-    width: 18px;
-    height: 18px;
-    text-align: center;
-    border-radius: 20px;
-    float: right;
-    padding: 2px;
-    color: white;
-    font-size: 14px;
-    right: 30px;
-    top: 8px;
-    line-height: 18px;
-}
 
-.clear:hover{
-    background: #969696;
-    cursor: pointer;
+@media only screen and (max-width:500px){
+    #clear-pins-btn{
+        bottom: 5%;
+        top:auto;
+       }
 }
-
-.error{
-background: #f5b355; 
-padding: 10px;
-margin-top: 15px;
-display: none; 
-} */

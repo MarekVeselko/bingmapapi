@@ -1,169 +1,98 @@
+function loadMapScenario() {
 
-  function loadMapScenario() {
-    
-      var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
-        center: new Microsoft.Maps.Location(51.482, -0.177),
-        zoom: 15,
-      });
-      
-      let addressName = "";
-      var pinLocation = "";
-
-      //Create an array of locations to get the boundaries of
-      var zipCodes = ["SW10 0AA"];    //Postcode2 
-      var zipCodes2 = ["SW10"];   //Postcode3
-      
-      var geoDataRequestOptions = {
-      entityType: 'Postcode2',
-      getAllPolygons: true,
-          };
-      var geoDataRequestOptions2 = {
-          entityType: 'Postcode3',
-          getAllPolygons: true
-            };
-
-      function bingMapOnClick(e) {
-          if (e.targetType == "map") {
-            
-            var point = new Microsoft.Maps.Point(e.getX(), e.getY());
-                //Convert map point to location
-            var location = e.target.tryPixelToLocation(point);   
-                //Print x y
-            console.log(location.longitude);
-            console.log(location.latitude);
-            pinLocation=new Microsoft.Maps.Location(location.latitude, location.longitude);
-            }  
-
-            // var pin = new Microsoft.Maps.Pushpin(pinLocation, {
-            //   icon:"icon/location-red.png",
-            //   visible: false    
-            // });
-            //   map.entities.push(pin);
-            
-              Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
-                var searchManager = new Microsoft.Maps.Search.SearchManager(map);
-                var reverseGeocodeRequestOptions = {
-                    location: pinLocation,
-                    callback: function (answer, userData) {
-                        document.getElementById('printoutPanel').innerHTML =
-                            answer.address.postalCode;
-
-                            addressName=answer.address.formattedAddress;
-                    }
-                };
-                searchManager.reverseGeocode(reverseGeocodeRequestOptions);
-            });
-
-        };
-
-        //Hardcoded pins
-        pinsVisibility = true;
-        function showPins(){
-        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.481491100821316, -0.18713758169192518), {
-          color: "red",
-          enableHoverStyle:true   
-        });
-          map.entities.push(pin);
-        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.4848144065551, -0.18955155882353303), {
-          color:"blue",  
-          enableHoverStyle:true,    
-        });
-        map.entities.push(pin);
-        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48150029279991, -0.18162515116436184), {
-          color:"black",
-          enableHoverStyle:true,   
-      });
-      map.entities.push(pin);
-      var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48613379771426, -0.18511427992365714), {
-        color:"green",
-        enableHoverStyle:true,   
-    });
-    map.entities.push(pin);
-    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(51.48375986674305, -0.18200844259763427), {
-      color:"orange",
-      enableHoverStyle:true,    
-    });
-    map.entities.push(pin);
-  }
-
-  if(pinsVisibility){
-    showPins();
-  }
-  function deletePins(){
-    for (var i = map.entities.getLength() - 1; i >= 0; i--) {
-      var pushpin = map.entities.get(i);
-      if (pushpin instanceof Microsoft.Maps.Pushpin) {
-          map.entities.removeAt(i);
-      }
-  }}
-  
-console.log(geoDataRequestOptions);
-              
-          Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
-            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes, geoDataRequestOptions, map, function (data) {
-              if (data.results && data.results.length > 0) {
-                    map.entities.push(data.results[0].Polygons);
-                }
-            }, null, function errCallback(callbackState, networkStatus, statusMessage) {
-                console.log(callbackState);
-                console.log(networkStatus);
-                console.log(statusMessage);
-            });
-      });
-      Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
-        Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(zipCodes2, geoDataRequestOptions2, map, function (data) {
-          if (data.results && data.results.length > 0) {
-            data.results[0].Polygons[0].setOptions({
-              fillColor: "rgba(162, 10, 10, 0.20)"
-            })
-                map.entities.push(data.results[0].Polygons);
-            }
-        }, null, function errCallback(callbackState, networkStatus, statusMessage) {
-            console.log(callbackState);
-            console.log(networkStatus);
-            console.log(statusMessage);
-        });
+  var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+    zoom: 15
   });
 
-      Microsoft.Maps.Events.addHandler(map, 'click', bingMapOnClick);
-      
+  let addressName = "";
+  var pinLocation = "";
 
 
-      document.getElementById("clear-pins-btn").addEventListener("click",function(){
-        if(pinsVisibility){
-          pinsVisibility=false;
-          deletePins();
-          document.getElementById("clear-pins-btn").innerHTML = "Show pins"
-        }else{
-          pinsVisibility=true;
-          showPins();
-          document.getElementById("clear-pins-btn").innerHTML = "Hide pins"
-        } 
-})}
-        
-      
+  Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+    var options = {
+      maxResults: 4,
+      map: map
+    };
+    var manager = new Microsoft.Maps.AutosuggestManager(options);
+    manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+  });
+
+  function selectedSuggestion(suggestionResult) {
+    map.entities.clear();
+    map.setView({
+      bounds: suggestionResult.bestView
+    });
+    s
+    document.getElementById('printoutPanel').innerHTML =
+      'Suggestion: ' + suggestionResult.formattedSuggestion +
+      '<br> Lat: ' + suggestionResult.location.latitude +
+      '<br> Lon: ' + suggestionResult.location.longitude;
+  }
+
+
+  function findPostCode(callback) {
+    Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+      var searchManager = new Microsoft.Maps.Search.SearchManager(map);
+      var reverseGeocodeRequestOptions = {
+        location: pinLocation,
+        callback: function (answer, userData) {
+          addressName = answer.address.addressLine;
+          console.log(answer.address)
+          callback();
+        }
+      };
+      searchManager.reverseGeocode(reverseGeocodeRequestOptions);
+    });
+  }
+
+  function createPin() {
+     pin = new Microsoft.Maps.Pushpin(pinLocation, {
+      color: "red",
+      title: addressName
+    });
+    map.entities.push(pin);
+  }
+
+  function bingMapOnClick(e) {
+    if (e.targetType == "map") {
+
+      var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+      //Convert map point to location
+      var location = e.target.tryPixelToLocation(point);
+      //Print x y
+      console.log(location.longitude);
+      console.log(location.latitude);
+      pinLocation = new Microsoft.Maps.Location(location.latitude, location.longitude);
+    }
+
+
+    findPostCode(createPin);
+
+  };
+  pinsVisibility = true;
 
 
 
 
 
-
-///////////////////////// PIN ICON
-
-
-// window.addEventListener("click",function(e){
+  Microsoft.Maps.Events.addHandler(map, 'click', bingMapOnClick);
 
 
-//   let img = document.createElement("img");
-//   img.setAttribute("src", "icon/pin-icon.png");
-//   img.setAttribute("alt","pin-icon");
-//   img.style.position="absolute";
-//   img.style.top= e.pageY + "px";
-//   img.style.left= e.pageX + "px";
-//   img.style.width = "3rem";
-//   console.log(img);
-//   document.body.appendChild(img);
-// })
+
+  document.getElementById("delete-pins-btn").addEventListener("click", () => {
+		for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+			var pushpin = map.entities.get(i);
+			if (pushpin instanceof Microsoft.Maps.Pushpin) {
+				map.entities.removeAt(i);
+			}
+    }
+  });
+}
+
+
+
+
+
 
 
 
